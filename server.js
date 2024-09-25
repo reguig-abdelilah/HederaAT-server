@@ -39,7 +39,10 @@ app.get('/tokendata', async(req,res)=>{
             res.status(500).json('please provide tokenname')
         }else{
             let token = await TokenSchema.VerifyTokenExist(data.tokenname)
-            res.json(token.raisedfunds)
+            if(!token?.raisedfunds)
+                res.json(token.raisedfunds)
+            else
+                res.json(0)
         }
     } catch (error) {
         res.status(500).json(error)

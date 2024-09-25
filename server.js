@@ -8,7 +8,8 @@ const path = require('path');
 const TokenSchema = require('./schemas/tokenschema.js');
 const { send } = require("process");
 const app = express();
-const port = 3000
+//const port = 3500 //local
+const port = 3000 //remote
 dotenv.config()
 app.use(cors({
     origin: 'http://45.79.221.196/'
@@ -40,13 +41,16 @@ app.get('/tokendata', async(req,res)=>{
         }else{
             let token = await TokenSchema.VerifyTokenExist(data.tokenname)
             if(token === null){
+                // console.log(' -----> 0')
                 res.json(0)
                 return
             }
-            if(!token?.raisedfunds)
+            if(token.raisedfunds !== undefined){
                 res.json(token.raisedfunds)
-            else
+            }
+            else{
                 res.json(0)
+            }
         }
     } catch (error) {
         res.status(500).json(error)
@@ -276,5 +280,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-// app.listen(port, ()=>{console.log(`Server listening on port ${port}`)})
-app.listen(port,'0.0.0.0', ()=>{console.log(`Server listening on port ${port}`)})
+// app.listen(port, ()=>{console.log(`Server listening on port ${port}`)}) // local
+app.listen(port,'0.0.0.0', ()=>{console.log(`Server listening on port ${port}`)}) // remote

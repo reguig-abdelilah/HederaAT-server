@@ -1,4 +1,5 @@
 
+const https = require("https")
 const { TokenCreateTransaction, TokenType, TokenMintTransaction, TokenSupplyType, PrivateKey, Client, AccountId, Hbar, TokenId, TransferTransaction } = require("@hashgraph/sdk");
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -282,3 +283,7 @@ app.get('*', (req, res) => {
 });
 // app.listen(port, ()=>{console.log(`Server listening on port ${port}`)}) // local
 app.listen(port,'0.0.0.0', ()=>{console.log(`Server listening on port ${port}`)}) // remote
+const options = {
+    key: fs.readFileSync("/srv/www/keys/my-site-key.pem"),
+    cert: fs.readFileSync("/srv/www/keys/chain.pem")
+};

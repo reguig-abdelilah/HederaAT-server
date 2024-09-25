@@ -30,8 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/tokendata', async(req,res)=>{
     const data = req.query;
-    console.log(data?.tokenname)
-    console.log(!data?.tokenname)
+    // console.log(data?.tokenname)
+    // console.log(!data?.tokenname)
 
     try {
         if(!data?.tokenname){
@@ -39,6 +39,10 @@ app.get('/tokendata', async(req,res)=>{
             res.status(500).json('please provide tokenname')
         }else{
             let token = await TokenSchema.VerifyTokenExist(data.tokenname)
+            if(token === null){
+                res.json(0)
+                return
+            }
             if(!token?.raisedfunds)
                 res.json(token.raisedfunds)
             else

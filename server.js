@@ -13,8 +13,12 @@ dotenv.config()
 app.use(cors({
     origin: 'http://45.79.221.196/'
 }));
-mongoose.connect('mongodb+srv://reguigabdelilah:U6ftepaifnG46adU@cluster0.jo41l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-// mongoose.connect('mongodb://127.0.0.1:27017/hashgraph');
+// mongoose.connect('mongodb+srv://reguigabdelilah:U6ftepaifnG46adU@cluster0.jo41l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+try {
+    mongoose.connect('mongodb://127.0.0.1:27017/hashgraph');
+} catch (error) {
+    console.log(error)    
+}
 // app.get('/contribute',(req,res)=>{
 //     console.log('Server Called')
 //     res.json({success:false})
@@ -29,13 +33,18 @@ app.get('/tokendata', async(req,res)=>{
     console.log(data?.tokenname)
     console.log(!data?.tokenname)
 
-    if(!data?.tokenname){
-        console.log('please provide tokenname')
-        res.status(500).json('please provide tokenname')
-    }else{
-        let token = await TokenSchema.VerifyTokenExist(data.tokenname)
-        res.json(token.raisedfunds)
+    try {
+        if(!data?.tokenname){
+            console.log('please provide tokenname')
+            res.status(500).json('please provide tokenname')
+        }else{
+            let token = await TokenSchema.VerifyTokenExist(data.tokenname)
+            res.json(token.raisedfunds)
+        }
+    } catch (error) {
+        res.status(500).send(error)
     }
+    
 })
 app.post('/token/campaign1',async (req,res)=>{
     const data = req.body;

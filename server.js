@@ -1,5 +1,6 @@
 
 const { TokenCreateTransaction, TokenType, TokenMintTransaction, TokenSupplyType, PrivateKey, Client, AccountId, Hbar, TokenId, TransferTransaction } = require("@hashgraph/sdk");
+const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv')
 const express = require('express')
@@ -9,8 +10,11 @@ const { send } = require("process");
 const app = express();
 const port = 3000
 dotenv.config()
-
-mongoose.connect('mongodb://127.0.0.1:27017/hashgraph');
+app.use(cors({
+    origin: 'http://45.79.221.196/'
+}));
+mongoose.connect('mongodb+srv://reguigabdelilah:U6ftepaifnG46adU@cluster0.jo41l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+// mongoose.connect('mongodb://127.0.0.1:27017/hashgraph');
 // app.get('/contribute',(req,res)=>{
 //     console.log('Server Called')
 //     res.json({success:false})
@@ -255,5 +259,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-app.listen(port, ()=>{console.log(`Server listening on port ${port}`)})
+// app.listen(port, ()=>{console.log(`Server listening on port ${port}`)})
+app.listen(port,'0.0.0.0', ()=>{console.log(`Server listening on port ${port}`)})

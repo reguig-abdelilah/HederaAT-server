@@ -42,7 +42,7 @@ app.get('/tokendata', async(req,res)=>{
             res.json(token.raisedfunds)
         }
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).json(error)
     }
     
 })

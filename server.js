@@ -13,7 +13,8 @@ const app = express();
 const port = 3000 //remote
 dotenv.config()
 app.use(cors({
-    origin: 'http://skillfolio.xyz/'
+    // origin: 'http://skillfolio.xyz/'
+    origin: `${window.location.protocol}//skillfolio.xyz`
 }));
 // mongoose.connect('mongodb+srv://reguigabdelilah:U6ftepaifnG46adU@cluster0.jo41l.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 try {
